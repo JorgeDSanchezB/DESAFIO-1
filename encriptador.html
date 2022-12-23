@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <title>ENCRIPTADOR</title>
+        <link rel="stylesheet" href="reset.css">
+        <link rel="stylesheet" href="style-encriptar.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@100&family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    </head>         
+    <body>
+        <header>
+            <div id="caja_logo">
+                <img class="logo" id="logo" src="Imagenes/Logo.png" alt="Logo Alura">
+            </div>
+        </header>
+        <main>
+                <div class="caja_general" id="caja_general">
+                    <div class="caja_derecha" id="caja_derecha">
+                        <textarea cols="30" rows="20" id="mensaje" placeholder="Ingresa el texto aquí"></textarea> 
+                        <div class="zona_reglas" id="zona_reglas">
+                            <p class="reglas">&#9406 Solo letras minúsculas y sin acentos</p>
+                        </div>
+                        <div clase="zona_botones" id="zona_botones">
+                            <button class="boton_encriptar" id="boton_encriptar">Encriptar</button>
+                            <button class="boton_desencriptar" id="boton_desencriptar">Desencriptar</button>
+                        </div>
+                    </div>
+                    <div class="zona_de_salida" id="zona_de_salida">
+                        <img src="Imagenes/Muñeco.png" alt="Imagen de no has encriptado nada" id="muneco">
+                        <div class="no_hay_mensaje" id="no_hay_mensaje">
+                            <p class="texto_grande">Ningún mensaje fue encontrado</p>
+                            <p class="texto_peque">Ingrese el texto que desea encriptar o desencriptar</p>
+                        </div>
+                        <p id="texto_encriptado"></p> 
+                        <div class="zona_copiar" id="zona_copiar">
+                            <button class="boton_copiar" id="boton_copiar">Copiar</button>
+                        </div>
+                    </div>
+
+                </div>
+        </main>
+        
+        <footer></footer>
+    </body>
+</html>
+
+<script>
+
+    //area de funciones ------------------------------------------------
+    function limpiar(){
+
+        mensaje.value="";
+
+    }
+    
+    function ocultar_elemento(elemento){
+
+        elemento.style.display="none"; //desparesco un elemento
+
+    }
+    function ver_elemento(elemento){
+
+        elemento.style.display="block"; //aparece un elemento
+
+    }
+
+    function validar_datos(){
+
+        let msn=mensaje.value;
+        let n_letras=msn.length;
+        let indice=0;
+
+        while (indice<n_letras){
+
+            if(msn[indice]=="ñ" || msn[indice]=="á" || msn[indice]=="é" || msn[indice]=="í" || msn[indice]=="ó" || msn[indice]=="ú"){
+                alert("letras sin acentos");
+                limpiar();
+                break;
+            }
+            if (msn[indice]==msn[indice].toLowerCase()) {
+                
+            } else {
+                alert("Solo letras minúsculas");
+                limpiar();
+                break;
+            }
+
+            indice++;
+            
+        }
+
+    }
+
+    function encriptar(){
+
+        validar_datos();
+        mensaje_procesado="";
+        let msn=mensaje.value;
+        let n_letras=msn.length;
+        let indice=0;
+        while (indice<n_letras){
+
+            if(msn[indice]=="a"){
+                mensaje_procesado=mensaje_procesado+"ai";
+            } else if(msn[indice]=="e"){
+                mensaje_procesado=mensaje_procesado+"enter";
+            } else if(msn[indice]=="i"){
+                mensaje_procesado=mensaje_procesado+"imes";
+            } else if(msn[indice]=="o"){
+                mensaje_procesado=mensaje_procesado+"ober";
+            } else if(msn[indice]=="u"){
+                mensaje_procesado=mensaje_procesado+"ufat";
+            } else {
+                mensaje_procesado=mensaje_procesado+msn[indice];
+            }
+            indice++;
+
+        }
+
+        ocultar_elemento(munheco);
+        ocultar_elemento(no_mensaje);
+        ver_elemento(m_encriptado);
+        ver_elemento(copia);
+        m_encriptado.innerHTML=mensaje_procesado;
+        limpiar();
+
+    }
+
+    function desencriptar(){
+
+        validar_datos();
+        mensaje_procesado="";
+        let msn=mensaje.value;
+        let n_letras=msn.length;
+        let indice=0;
+        let sumador=0;
+        let decodificado="";
+
+        while (indice<n_letras){
+            
+            decodificado=msn[indice];
+            sumador=1;
+
+            if(msn[indice]=="a"){
+                if(indice+1<n_letras){
+                    if(msn[indice+1]=="i"){
+                        decodificado="a";
+                        sumador=2;
+                    }
+                }
+            }   
+            
+            if(msn[indice]=="e"){
+                if(indice+4<n_letras){
+                    if(msn[indice+1]=="n"){
+                        if(msn[indice+2]=="t"){
+                            if(msn[indice+3]=="e"){
+                                if(msn[indice+4]="r"){
+                                    decodificado="e";
+                                    sumador=5;
+                                }
+                            }
+                        }
+                    }
+                } 
+            } 
+            
+            if(msn[indice]=="i"){
+                if(indice+3<n_letras){
+                    if(msn[indice+1]=="m"){
+                        if(msn[indice+2]=="e"){
+                            if(msn[indice+3]=="s"){
+                                decodificado="i";
+                                sumador=4;
+                            }
+                        }
+                    }
+                } 
+            }
+            
+            if(msn[indice]=="o"){
+                if(indice+3<n_letras){
+                    if(msn[indice+1]=="b"){
+                        if(msn[indice+2]=="e"){
+                            if(msn[indice+3]=="r"){
+                                decodificado="o";
+                                sumador=4;
+                            }
+                        }
+                    }
+                } 
+            } 
+            
+            if(msn[indice]=="u"){
+                if(indice+3<n_letras){
+                    if(msn[indice+1]=="f"){
+                        if(msn[indice+2]=="a"){
+                            if(msn[indice+3]=="t"){
+                                decodificado="u";
+                                sumador=4;
+                            }
+                        }
+                    }
+                } 
+            } 
+                  
+        mensaje_procesado=mensaje_procesado+decodificado;
+        indice=indice+sumador;
+            
+        }
+
+        m_encriptado.innerHTML=mensaje_procesado;
+        limpiar();
+
+    }
+
+    function selecionar_texto_p(texto_p) {
+
+        let selection = window.getSelection();
+        let range = document.createRange();
+        range.selectNodeContents(texto_p);
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+    }
+
+    function copiar(){
+        
+        selecionar_texto_p(m_encriptado);
+        document.execCommand("copy");
+        
+    }
+
+    //area de declaracion de variables globales ----------------------------------------
+
+    // variables que toman objetos de html mediante css
+    var mensaje=document.querySelector("#mensaje");
+    var m_encriptado=document.querySelector("#texto_encriptado");
+    var munheco=document.querySelector("#muneco");
+    var encripta=document.querySelector("#boton_encriptar");
+    var desencripta=document.querySelector("#boton_desencriptar");
+    var copia=document.querySelector("#boton_copiar");
+    var no_mensaje=document.querySelector("#no_hay_mensaje");
+
+    // variables globales normales
+    var mensaje_procesado="";
+
+    //area de dcondiciones iniciales ----------------------------------------
+    ocultar_elemento(m_encriptado);
+    ocultar_elemento(copia);
+    
+    //area de ejecucion ----------------------------------------
+    encripta.onclick=encriptar;
+    desencripta.onclick=desencriptar;
+    copia.onclick=copiar;
+   
+
+    //<img src="zona_encriptado.png" alt="Imagen de no has encriptado nada" id="nada_encriptado">
+
+</script>
